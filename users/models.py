@@ -39,7 +39,6 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=100)
     phone_number = models.IntegerField(blank=True)
     address = models.CharField(max_length=100)
-    password2 = models.CharField(max_length=100, default=None)
     reward = models.IntegerField(blank=True, default=0)
     
 
