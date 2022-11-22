@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User, Order
-from imagestorage.models import Image
+from ImageStorage.models import Image
 class FilterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter
