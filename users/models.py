@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
-
-
+import store
 class UserManager(BaseUserManager):
     def create_user(self, email, username, phone_number, address, password=None):
         if not email:
@@ -72,3 +71,16 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+    
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
+    # order_number = models.IntegerField() 필요없을듯? order_id로 쓰면될듯
+    total_order_price = models.IntegerField()
+    order_reward = models.IntegerField()
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
+    # image = models.ForeignKey(Image, on_delete=models.CASCADE)    

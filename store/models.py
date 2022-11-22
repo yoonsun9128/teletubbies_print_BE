@@ -8,16 +8,6 @@ class Filter(models.Model):
     class meta:
         db_table = 'filter'
 
-# class Filter_size(models.Model):
-#     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
-#     size = models.IntegerField()
-#     size_price = models.IntegerField()
-
-# class Filter_option(models.Model):
-#     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
-#     option = models.CharField(max_length=100)
-#     option_price = models.IntegerField()
-
 class Filter_option(models.Model):
     SIZE = 'SIZE'
     OPTION = 'OPTION'
@@ -35,7 +25,7 @@ class Filter_option(models.Model):
 
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
     review_image = models.ImageField()
     content = models.TextField()
