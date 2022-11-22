@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ImagestorageConfig(AppConfig):
+class ImageStorageConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'imagestorage'
+    name = 'ImageStorage'
