@@ -1,15 +1,12 @@
 from rest_framework import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User, Order
-
+from imagestorage.models import Image
 class FilterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter
         fields = "__all__"
         
-
-
-
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
 
@@ -18,7 +15,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ('review_image','content','user', 'updated_at')
+        fields = ('review_image','content','user', 'updated_at', 'created_at')
         
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
@@ -44,8 +41,19 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
         
-class OrderPageSerializer(serializers.ModelSerializer):
-    user_set = OrderUserSerializer(many=True)
+class ImageStorageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = "__all__"
+
+class FilterOptionPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter_option
-        fields = ("price", "reward", "username", "phone_number", "email", "address")
+        fields = ("price",)
+        
+class OrderPageSerializer(serializers.ModelSerializer): #구매페이지, 주문자정보(user이름, 번호, 이메일, 주소, 적립금 // 상품금액)
+    image_set = ImageStorageSerializer(many=True)
+    price_set = FilterOptionPriceSerializer(many=True)
+    class Meta:
+        model = User
+        fields = ("username", "phone_number", "email", "address", "reward")

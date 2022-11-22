@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from store import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User
-from store.serializers import FilterSerializer, FilterSizeOptionSerializer, ReviewSerializer, ReviewCreateSerializer, OrderPageSerializer
+from store.serializers import FilterSerializer, FilterSizeOptionSerializer, ReviewSerializer, ReviewCreateSerializer, OrderPageSerializer, OrderCreateSerializer
 from django.db.models.query_utils import Q
 # Create your views here.
 class StoreView(APIView):
@@ -37,11 +37,14 @@ class ReviewView(APIView):
         
 class OrderPageView(APIView):
     def get(self, request, user_id):
-        "아웃풋사진"
         user = User.objects.get(id=user_id)
         serializers = OrderPageSerializer(user, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
     
-    def post(self, request):
-        
-        pass
+    def post(self, request, user_id):
+        serializer = OrderCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, user_id=user_id)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        

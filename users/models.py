@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 import store
+from store.models import Filter
 class UserManager(BaseUserManager):
     def create_user(self, email, username, phone_number, address, password=None):
         if not email:
@@ -78,9 +79,11 @@ class Order(models.Model):
     # order_number = models.IntegerField() 필요없을듯? order_id로 쓰면될듯
     total_order_price = models.IntegerField()
     order_reward = models.IntegerField()
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now = True)
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
-    # image = models.ForeignKey(Image, on_delete=models.CASCADE)    
+    # image = models.ForeignKey(Image, on_delete=models.CASCADE)   
+    

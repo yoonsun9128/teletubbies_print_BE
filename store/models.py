@@ -4,9 +4,15 @@ from users.models import User
 
 class Filter(models.Model):
     filter_image = models.ImageField()
+    bookmark = models.ManyToManyField(User, through="UserFilterBookmark")
     
     class meta:
         db_table = 'filter'
+
+class UserFilterBookmark(models.Model):
+    filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    state = models.IntegerField(default=0) # 북마크 했으면 1 안했으면 0
 
 class Filter_option(models.Model):
     SIZE = 'SIZE'
@@ -31,7 +37,5 @@ class Review(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
-
-
 
 
