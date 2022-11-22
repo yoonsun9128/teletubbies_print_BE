@@ -18,13 +18,14 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('username', True)
-        extra_fields.setdefault('phone_number', True)
-        extra_fields.setdefault('address', True)
+    def create_superuser(self, email, username=None, address=None, password=None, phone_number=None):
         user = self.create_user(
             email,
             password=password,
+            phone_number=phone_number,
+            username=username,
+            address=address
+
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -39,9 +40,9 @@ class User(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    username = models.CharField(max_length=100)
-    phone_number = models.IntegerField(blank=True)
-    address = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, null=True)
+    phone_number = models.IntegerField(blank=True, null=True)
+    address = models.CharField(max_length=100, null=True)
     reward = models.IntegerField(blank=True, default=0)
     
 
