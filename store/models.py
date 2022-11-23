@@ -3,9 +3,9 @@ from users.models import User
 # Create your models here.
 
 class Filter(models.Model):
-    user = models.ManyToManyField(User, through="UserFilter")
+    user = models.ManyToManyField(User, through="UserFilter", related_name='user_filter')
     filter_image = models.ImageField()
-    bookmark = models.ManyToManyField(User, through="UserFilterBookmark")
+    bookmark = models.ManyToManyField(User, through="UserFilterBookmark", related_name='bookmark_filter')
     
     class meta:
         db_table = 'filter'
