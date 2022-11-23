@@ -57,3 +57,17 @@ class OrderPageSerializer(serializers.ModelSerializer): #구매페이지, 주문
     class Meta:
         model = User
         fields = ("username", "phone_number", "email", "address", "reward")
+
+class FilterOptionSerializer(serializers.ModelSerializer): # filter_option에 대한 시리얼라이저
+     class Meta:
+        model = Filter_option
+        fields = "__all__"
+
+class OptionReviewSerializer(serializers.ModelSerializer): # 오더와 리뷰를 합친 serializer
+    review_set = ReviewSerializer(many=True)
+    filter_option_set = FilterOptionSerializer(many=True)
+    class Meta:
+        model = Filter
+        fields = "__all__"
+    
+
