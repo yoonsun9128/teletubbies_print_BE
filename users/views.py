@@ -37,4 +37,3 @@ class UserDetailView(APIView): #이메일, 비밀번호, 유저네임, 핸드폰
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
-        

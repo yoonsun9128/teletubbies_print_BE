@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from users.models import User
+from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from store.serializers import FilterSerializer, ReviewSerializer, FilterSizeOptionSerializer, OrderCreateSerializer
 
@@ -77,3 +78,4 @@ class UserInfoModSerializer(serializers.ModelSerializer): #이메일, 비밀번�
     class meta:
         model = User
         fields = ('email','username','phone_number', 'address', 'password','password2')
+        
