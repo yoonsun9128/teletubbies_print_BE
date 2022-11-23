@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from store import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User
-from store.serializers import FilterSerializer, FilterSizeOptionSerializer, ReviewSerializer, ReviewCreateSerializer, OrderPageSerializer, OrderCreateSerializer, OptionReviewSerializer
+from store.serializers import FilterSerializer, OptionReviewSerializer, ReviewSerializer, ReviewCreateSerializer, OrderPageSerializer, OrderCreateSerializer, OptionReviewSerializer
 from django.db.models.query_utils import Q
-# Create your views here.
+
 class StoreView(APIView):
     def get(self, request):
         filters = Filter.objects.all()
@@ -18,7 +18,7 @@ class StoreView(APIView):
 class OptionSettingPageView(APIView):
     def get(self, request, filter_id):
         filter = get_object_or_404(Filter, id=filter_id)
-        serializer = FilterSizeOptionSerializer(filter, many=True)
+        serializer = OptionReviewSerializer(filter, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
         
@@ -38,9 +38,9 @@ class ReviewView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class OrderPageView(APIView):
-    def get(self, request, user_id):
-        user = User.objects.get(id=user_id)
-        serializers = OrderPageSerializer(user, many=True)
+    def get(self, request, filter_id):
+        filter = Filter.objects.get(id=filter_id)
+        serializers = OrderPageSerializer(filter)
         return Response(serializers.data, status=status.HTTP_200_OK)
     
     def post(self, request, user_id):
@@ -51,9 +51,5 @@ class OrderPageView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
 
-class OptionReView(APIView):
-    def get(self, request, filter_id):
-        filter = get_object_or_404(Filter, id=filter_id)
-        serializer = OptionReviewSerializer(filter)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
               

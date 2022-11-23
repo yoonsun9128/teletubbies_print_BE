@@ -3,11 +3,17 @@ from users.models import User
 # Create your models here.
 
 class Filter(models.Model):
+    user = models.ManyToManyField(User, through="UserFilter")
     filter_image = models.ImageField()
     bookmark = models.ManyToManyField(User, through="UserFilterBookmark")
     
     class meta:
         db_table = 'filter'
+
+class UserFilter(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
+
 
 class UserFilterBookmark(models.Model):
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
