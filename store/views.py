@@ -13,25 +13,20 @@ class StoreView(APIView):
         filters = Filter.objects.all()
         serializer = FilterSerializer(filters, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+
 class OptionSettingPageView(APIView):
     def get(self, request, filter_id):
-        filter_option = get_object_or_404(Filter_option, id=filter_id)
-        serializer = FilterSizeOptionSerializer(filter_option, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-# class OptionSettingPageView(APIView):
-#     def get(self, request, filter_id):
-#         filter = get_object_or_404(Filter, id=filter_id)
-#         filter_option = filter_option.filter
-#         reviews = filter.review_set.all()
+        filter = get_object_or_404(Filter, id=filter_id)
+        serializer = FilterSizeOptionSerializer(filter, many=True)
         
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
 class ReviewView(APIView):
     def get(self, request, filter_id):
         filter = Filter.objects.get(id=filter_id)
         reviews = filter.review_set.all()
-        serializer = ReviewSerializer(reviews, many=True)
+        serializer = ReviewSerializer(reviews)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, filter_id):
@@ -59,8 +54,6 @@ class OrderPageView(APIView):
 class OptionReView(APIView):
     def get(self, request, filter_id):
         filter = get_object_or_404(Filter, id=filter_id)
-        
         serializer = OptionReviewSerializer(filter)
-        
         return Response(serializer.data, status=status.HTTP_200_OK)
               
