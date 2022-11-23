@@ -63,5 +63,6 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Order, Cart)
+admin.site.register(Order)
+admin.site.register(Cart)
 admin.site.unregister(Group) 

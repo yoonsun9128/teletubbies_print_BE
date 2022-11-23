@@ -19,14 +19,21 @@ class OptionSettingPageView(APIView):
         filter_option = get_object_or_404(Filter_option, id=filter_id)
         serializer = FilterSizeOptionSerializer(filter_option, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
+# class OptionSettingPageView(APIView):
+#     def get(self, request, filter_id):
+#         filter = get_object_or_404(Filter, id=filter_id)
+#         filter_option = filter_option.filter
+#         reviews = filter.review_set.all()
+        
+        
 class ReviewView(APIView):
     def get(self, request, filter_id):
         filter = Filter.objects.get(id=filter_id)
-        reviews = filter.comment_set.all()
+        reviews = filter.review_set.all()
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
     def post(self, request, filter_id):
         serializer = ReviewCreateSerializer(data=request.data)
         if serializer.is_valid():

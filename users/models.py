@@ -82,9 +82,15 @@ class Order(models.Model):
     order_reward = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
+    
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
+    filter_option = models.ManyToManyField('store.Filter_option', through="FilterOptionCart")
     # image = models.ForeignKey(Image, on_delete=models.CASCADE)   
-    
+
+
+class FilterOptionCart(models.Model):
+    filter_option = models.ForeignKey('store.filter_option', on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+       

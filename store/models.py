@@ -26,7 +26,11 @@ class Filter_option(models.Model):
     value = models.CharField(max_length=100) # size=6x8 / size=8x10 / 달력
     price = models.IntegerField() 
     type = models.CharField(max_length=100, choices=TYPE_CHOICES) #초이스 속성 주고 , 얘가 size 인지 option 선택하는 곳
+    
     # new_instance = Filter_option(type=Filter_option.SIZE)
+    # size_price = Filter_option.objects.get(type=SIZE)
+    # month_price = Filter_option.objects.get(type=OPTION, value=Filter_option.value['달력'])
+    # total_price = size_price + month_price
     
 
 
