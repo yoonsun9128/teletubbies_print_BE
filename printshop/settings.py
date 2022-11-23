@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'store',
+    'style',
     'ImageStorage',
     'rest_framework',
     'rest_framework_simplejwt',
-    
+
 ]
 
 REST_FRAMEWORK = {
