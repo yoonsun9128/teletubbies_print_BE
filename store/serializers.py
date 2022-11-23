@@ -34,6 +34,7 @@ class ImageStorageSerializer(serializers.ModelSerializer): #이미지테이블 �
         fields = "__all__"
 
 class FilterOptionPriceSerializer(serializers.ModelSerializer): #filter_option에서 price만 가져오는 시리얼라이즈
+    filter_set = FilterSerializer(many=True)
     class Meta:
         model = Filter_option
         fields = ("price",)
@@ -60,10 +61,10 @@ class OrderPageImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ("output_img",)
 
-class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈
+class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈 + price
     user_set = OrderPageUserSerializer(many=True)
-    
-    # *******************이거하다가 말았음***********************************************************************************************************
+    output_img_set = OrderPageImageSerializer(many=True)
+    price_set = FilterOptionPriceSerializer(many=True)
     class Meta:
         model = Filter
         fields = "__all__"

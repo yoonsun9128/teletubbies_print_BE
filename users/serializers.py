@@ -2,7 +2,7 @@ from rest_framework import serializers
 from users.models import User
 from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from store.serializers import FilterSerializer, ReviewSerializer, FilterSizeOptionSerializer, OrderCreateSerializer
+from store.serializers import FilterSerializer, ReviewSerializer, OptionReviewSerializer, OrderCreateSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -66,7 +66,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 class UserMypageSerializer(serializers.ModelSerializer): #user(username, reward), 주문내역(size,달력,가격,주문날짜,주문번호), 장바구니(구매옵션설정페이지), 나의리뷰(리뷰내용), 북마크필터조회(북마크한 필터이미지)
     order_create_set = OrderCreateSerializer(many=True) #주문내역
-    order_option_set = FilterSizeOptionSerializer(many=True) #장바구니
+    order_option_set = OptionReviewSerializer(many=True) #장바구니
     bookmark_set = FilterSerializer(many=True) # 북마크 + filter_image
     review_set = ReviewSerializer(many=True) # 리뷰내용(리뷰이미지, 내용, 리뷰작성일자)
 
