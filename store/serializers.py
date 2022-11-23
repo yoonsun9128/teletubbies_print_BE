@@ -60,11 +60,14 @@ class OrderPageImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ("output_img",)
+class OrderPagePriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Filter_option
+        fields = ("price", "value", "type",)
 
 class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈 + price
-    user_set = OrderPageUserSerializer(many=True)
-    output_img_set = OrderPageImageSerializer(many=True)
-    price_set = FilterOptionPriceSerializer(many=True)
+    user = OrderPageUserSerializer(many=True)
+    filter_option_set = OrderPagePriceSerializer(many=True)
     class Meta:
         model = Filter
         fields = "__all__"

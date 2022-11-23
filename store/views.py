@@ -11,14 +11,14 @@ from django.db.models.query_utils import Q
 class StoreView(APIView):
     def get(self, request):
         filters = Filter.objects.all()
-        serializer = FilterSerializer(filters, many=True)
+        serializer = FilterSerializer(filters)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OptionSettingPageView(APIView):
     def get(self, request, filter_id):
         filter = get_object_or_404(Filter, id=filter_id)
-        serializer = OptionReviewSerializer(filter, many=True)
+        serializer = OptionReviewSerializer(filter)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
 class ReviewView(APIView):
