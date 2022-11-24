@@ -3,11 +3,17 @@ from users.models import User
 # Create your models here.
 
 class Filter(models.Model):
+    user = models.ManyToManyField(User, through="UserFilter", related_name='user_filter')
     filter_image = models.ImageField()
-    bookmark = models.ManyToManyField(User, through="UserFilterBookmark")
+    bookmark = models.ManyToManyField(User, through="UserFilterBookmark", related_name='bookmark_filter')
     
     class meta:
         db_table = 'filter'
+
+class UserFilter(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
+
 
 class UserFilterBookmark(models.Model):
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
@@ -26,7 +32,11 @@ class Filter_option(models.Model):
     value = models.CharField(max_length=100) # size=6x8 / size=8x10 / 달력
     price = models.IntegerField() 
     type = models.CharField(max_length=100, choices=TYPE_CHOICES) #초이스 속성 주고 , 얘가 size 인지 option 선택하는 곳
+    
     # new_instance = Filter_option(type=Filter_option.SIZE)
+    # size_price = Filter_option.objects.get(type=SIZE)
+    # month_price = Filter_option.objects.get(type=OPTION, value=Filter_option.value['달력'])
+    # total_price = size_price + month_price
     
 
 
