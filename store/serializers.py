@@ -42,9 +42,10 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class ImageStorageSerializer(serializers.ModelSerializer):
+    input_img = serializers.FileField(required=False)
     class Meta:
         model = Image
-        fields = "__all__"
+        fields = ("pk", "input_img", "output_img")
 
 class FilterOptionPriceSerializer(serializers.ModelSerializer):
     class Meta:
