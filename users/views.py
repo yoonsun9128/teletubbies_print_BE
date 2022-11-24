@@ -22,7 +22,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class UserMypageView(APIView): #북마크, 리뷰내용, 주문내역, 장바구니, 이름,적립금
     def get(self, request, user_id):
         user = User.objects.get(id=user_id) 
-        serializer = UserMypageSerializer(user, many=True)
+        serializer = UserMypageSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
 class UserDetailView(APIView): #이메일, 비밀번호, 유저네임, 핸드폰, 주소
