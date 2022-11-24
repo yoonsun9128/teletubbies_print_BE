@@ -9,7 +9,6 @@ import PIL
 
 def load_image(image_path, image_size=(512, 256)):
     image_path = image_path[1:]
-    print("윤선", image_path)
     img = tf.io.decode_image(
     tf.io.read_file(image_path),
     channels=3, dtype=tf.float32)[tf.newaxis, ...]
@@ -17,9 +16,6 @@ def load_image(image_path, image_size=(512, 256)):
     return img
 
 def style(input_img, choice_filter):
-    print("머신러닝", input_img)
-    print("머신러닝", choice_filter)
-# load images
     original_image = load_image(input_img)
     style_image = load_image(f'/media/{choice_filter}')
 
@@ -29,9 +25,7 @@ def style(input_img, choice_filter):
 
     output = hub_module(tf.constant(original_image), tf.constant(style_image))
     stylized_photo = output[0]
-    print(stylized_photo, 'testtest')
     result = export_image(stylized_photo)
-    print("ㅇㅇㅇ",result)
     return result
 
 
@@ -42,6 +36,3 @@ def export_image(tf_img):
         assert tf_img.shape[0] == 1
         img = tf_img[0]
     return PIL.Image.fromarray(img)
-
-    # 저장하는 코드
-    # export_image(stylized_photo).save("output.png")
