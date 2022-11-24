@@ -7,19 +7,17 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import PIL
 
+# 이미지 사이즈 조절하는 함수
 def load_image(image_path, image_size=(512, 256)):
     image_path = image_path[1:]
-    print("윤선", image_path)
     img = tf.io.decode_image(
     tf.io.read_file(image_path),
     channels=3, dtype=tf.float32)[tf.newaxis, ...]
     img = tf.image.resize(img, image_size, preserve_aspect_ratio=True)
     return img
 
+# 모델사용해서 이미지 transfer 함수
 def style(input_img, choice_filter):
-    print("머신러닝", input_img)
-    print("머신러닝", choice_filter)
-# load images
     original_image = load_image(input_img)
     style_image = load_image(f'/media/{choice_filter}')
 
@@ -29,12 +27,10 @@ def style(input_img, choice_filter):
 
     output = hub_module(tf.constant(original_image), tf.constant(style_image))
     stylized_photo = output[0]
-    print(stylized_photo, 'testtest')
     result = export_image(stylized_photo)
-    print("ㅇㅇㅇ",result)
     return result
 
-
+# 넘파이 값다시 사진으로 만들어주는 함수
 def export_image(tf_img):
     tf_img = tf_img*255
     tf_img = np.array(tf_img, dtype=np.uint8)
@@ -42,6 +38,3 @@ def export_image(tf_img):
         assert tf_img.shape[0] == 1
         img = tf_img[0]
     return PIL.Image.fromarray(img)
-
-    # 저장하는 코드
-    # export_image(stylized_photo).save("output.png")
