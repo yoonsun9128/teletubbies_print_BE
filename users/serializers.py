@@ -6,12 +6,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from store.serializers import FilterSerializer, ReviewSerializer, OptionReviewSerializer, OrderCreateSerializer, FilterOptionSerializer
 
 class UserSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
+    passwordcheck = serializers.CharField(style={'input_type':'password'}, write_only=True)
 
 
     class Meta:
         model = User
-        fields = ('email','username','phone_number', 'address', 'password','password2')
+        fields = ('email','username','phone_number', 'address', 'password','passwordcheck')
         extra_kwargs={
             'password':{'write_only':True}
         }
@@ -34,8 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         email = User.objects.filter(email=data['email'])
         password=data.get('password')
-        password2=data.pop('password2')
-        if password != password2:
+        passwordcheck=data.pop('passwordcheck')
+        if password != passwordcheck:
             raise serializers.ValidationError(
                 detail={"error":"비밀번호가 맞지 않습니다"}
             )
