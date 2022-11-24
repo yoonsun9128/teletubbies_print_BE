@@ -7,6 +7,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import PIL
 
+# 이미지 사이즈 조절하는 함수
 def load_image(image_path, image_size=(512, 256)):
     image_path = image_path[1:]
     img = tf.io.decode_image(
@@ -15,6 +16,7 @@ def load_image(image_path, image_size=(512, 256)):
     img = tf.image.resize(img, image_size, preserve_aspect_ratio=True)
     return img
 
+# 모델사용해서 이미지 transfer 함수
 def style(input_img, choice_filter):
     original_image = load_image(input_img)
     style_image = load_image(f'/media/{choice_filter}')
@@ -28,7 +30,7 @@ def style(input_img, choice_filter):
     result = export_image(stylized_photo)
     return result
 
-
+# 넘파이 값다시 사진으로 만들어주는 함수
 def export_image(tf_img):
     tf_img = tf_img*255
     tf_img = np.array(tf_img, dtype=np.uint8)
