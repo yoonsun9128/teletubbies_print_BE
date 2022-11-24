@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from users.models import User
+from store.models import Filter, UserFilter
 from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from store.serializers import FilterSerializer, ReviewSerializer, OptionReviewSerializer, OrderCreateSerializer
+from store.serializers import FilterSerializer, ReviewSerializer, OptionReviewSerializer, OrderCreateSerializer, FilterOptionSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -63,19 +64,26 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
 
         return token
-    
+
+class UserMypageCartSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=True)
+    review_set = ReviewSerializer(many=True)
+    filter_option_set = FilterOptionSerializer(many=True)
+    class Meta:
+        model = Filter
+        fields = "__all__"
+
 class UserMypageSerializer(serializers.ModelSerializer): #user(username, reward), 주문내역(size,달력,가격,주문날짜,주문번호), 장바구니(구매옵션설정페이지), 나의리뷰(리뷰내용), 북마크필터조회(북마크한 필터이미지)
-    order_create_set = OrderCreateSerializer(many=True) #주문내역
-    order_option_set = OptionReviewSerializer(many=True) #장바구니
-    bookmark_set = FilterSerializer(many=True) # 북마크 + filter_image
+    order_set = OrderCreateSerializer(many=True) #주문내역
+    user_filter = UserMypageCartSerializer(many=True) #장바구니, 북마크
     review_set = ReviewSerializer(many=True) # 리뷰내용(리뷰이미지, 내용, 리뷰작성일자)
 
-    class meta:
+    class Meta:
         model = User
-        fields = ("username", "reward",)
+        fields = ("username", "reward", "order_set", "user_filter", "review_set", )
 
 class UserInfoModSerializer(serializers.ModelSerializer): #이메일, 비밀번호, 유저네임, 핸드폰, 주소 ******************************얘 좀 이상함*************************
-    class meta:
+    class Meta:
         model = User
         fields = ('email','username','phone_number', 'address', 'password','password2')
         
