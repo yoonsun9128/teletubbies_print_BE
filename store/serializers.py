@@ -6,30 +6,30 @@ class FilterSerializer(serializers.ModelSerializer): #Filter모델 시리얼라�
     class Meta:
         model = Filter
         fields = "__all__"
-        
+
 class ReviewSerializer(serializers.ModelSerializer): #구매옵션설정페이지 댓글부분 시리얼라이즈
     user = serializers.SerializerMethodField()
 
     def get_user(self, obj):
         return obj.user.username
-    
+
     class Meta:
         model = Review
         fields = ('review_image','content','user', 'updated_at', 'created_at')
-        
+
 
 class ReviewCreateSerializer(serializers.ModelSerializer): #구매옵션설정페이지 리뷰생성 시리얼라이즈
     class Meta:
         model = Review
         fields = ("content",)
-        
+
 class OrderCreateSerializer(serializers.ModelSerializer): #구매페이지 order생성 시리얼라이즈
     class Meta:
         model = Order
         fields = "__all__"
-        
 
-class ImageStorageSerializer(serializers.ModelSerializer):
+
+class ImageStorageSerializer(serializers.ModelSerializer): #인풋인미지와 아웃풋이미지 담는 시리얼라이즈
     input_img = serializers.FileField(required=False)
     class Meta:
         model = Image
@@ -59,9 +59,14 @@ class OrderPageUserSerializer(serializers.ModelSerializer):  #구매페이지에
         fields = ("username", "phone_number", "email", "address", "reward")
 
 class OrderPageImageSerializer(serializers.ModelSerializer):
+    output_img = serializers.SerializerMethodField()
+    def get_output_img(self, obj):
+        return obj.output_img.name
+
     class Meta:
         model = Image
         fields = ("output_img",)
+
 class OrderPagePriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter_option
@@ -69,6 +74,7 @@ class OrderPagePriceSerializer(serializers.ModelSerializer):
 
 class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈 + price
     user = OrderPageUserSerializer(many=True)
+    image_set = OrderPageImageSerializer(many=True)
     filter_option_set = OrderPagePriceSerializer(many=True)
     class Meta:
         model = Filter
