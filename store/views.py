@@ -6,7 +6,7 @@ from store import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User
 from ImageStorage.views import style
-from store.serializers import FilterSerializer, FilterSizeOptionSerializer, ReviewSerializer, ReviewCreateSerializer, OrderPageSerializer, OrderCreateSerializer, ImageStorageSerializer
+from store.serializers import FilterSerializer, ReviewSerializer, OrderPageSerializer, OrderCreateSerializer, ImageStorageSerializer, OptionReviewSerializer
 from django.db.models.query_utils import Q
 from ImageStorage.models import Image
 import PIL
@@ -21,8 +21,6 @@ class StoreView(APIView):
 class OptionSettingPageView(APIView):
     def get(self, request, filter_id):
         filter = get_object_or_404(Filter, id=filter_id)
-        filter_option = filter_option.filter
-        reviews = filter.review_set.all()
         serializer = OptionReviewSerializer(filter)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
