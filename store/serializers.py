@@ -28,10 +28,12 @@ class OrderCreateSerializer(serializers.ModelSerializer): #구매페이지 order
         model = Order
         fields = "__all__"
         
-class ImageStorageSerializer(serializers.ModelSerializer): #이미지테이블 시리얼라이즈
+
+class ImageStorageSerializer(serializers.ModelSerializer):
+    input_img = serializers.FileField(required=False)
     class Meta:
         model = Image
-        fields = "__all__"
+        fields = ("pk", "input_img", "output_img")
 
 class FilterOptionPriceSerializer(serializers.ModelSerializer): #filter_option에서 price만 가져오는 시리얼라이즈
     filter_set = FilterSerializer(many=True)
