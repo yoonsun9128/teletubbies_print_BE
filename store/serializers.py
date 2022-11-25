@@ -29,11 +29,11 @@ class OrderCreateSerializer(serializers.ModelSerializer): #구매페이지 order
         fields = "__all__"
 
 
-# class ImageStorageSerializer(serializers.ModelSerializer): #인풋인미지와 아웃풋이미지 담는 시리얼라이즈
-#     input_img = serializers.FileField(required=False)
-#     class Meta:
-#         model = Image
-#         fields = ("pk", "input_img", "output_img")
+class ImageStorageSerializer(serializers.ModelSerializer): #인풋인미지와 아웃풋이미지 담는 시리얼라이즈
+    input_img = serializers.FileField(required=False)
+    class Meta:
+        model = Image
+        fields = ("pk", "input_img", "output_img")
 
 class FilterOptionPriceSerializer(serializers.ModelSerializer): #filter_option에서 price만 가져오는 시리얼라이즈
     filter_set = FilterSerializer(many=True)
