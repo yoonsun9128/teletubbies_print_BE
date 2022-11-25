@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 import store
+import ImageStorage
 from django.utils import timezone
 class UserManager(BaseUserManager):
     def create_user(self, email, username, phone_number, address, password=None):
@@ -43,8 +44,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=100, null=True)
     phone_number = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=100, null=True)
-    reward = models.IntegerField(blank=True, default=0)
-    
+    filter_history = models.ManyToManyField('store.Filter', related_name="filter_user")
 
     objects = UserManager()
 
@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
     extra_kwargs = {
         'reword' : False
     }
-    
+
     def __str__(self):
         return self.email
 
@@ -73,24 +73,20 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
-    
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
-    # order_number = models.IntegerField() 필요없을듯? order_id로 쓰면될듯
+    filter = models.ForeignKey('store.Filter', on_delete=models.CASCADE)
+    filter_option = models.ManyToManyField('store.Filter_option', related_name="filter_option_order")
+    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE)
     total_order_price = models.IntegerField()
-    order_reward = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
-    
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter_option = models.ManyToManyField('store.Filter_option', through="FilterOptionCart")
-    # image = models.ForeignKey(Image, on_delete=models.CASCADE)   
+    filter_option = models.ManyToManyField('store.Filter_option', related_name="filter_option_cart")
+    # image = models.ForeignKey(Image, on_delete=models.CASCADE)
 
 
-class FilterOptionCart(models.Model):
-    filter_option = models.ForeignKey('store.filter_option', on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-       

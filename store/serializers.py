@@ -29,11 +29,11 @@ class OrderCreateSerializer(serializers.ModelSerializer): #구매페이지 order
         fields = "__all__"
 
 
-class ImageStorageSerializer(serializers.ModelSerializer): #인풋인미지와 아웃풋이미지 담는 시리얼라이즈
-    input_img = serializers.FileField(required=False)
-    class Meta:
-        model = Image
-        fields = ("pk", "input_img", "output_img")
+# class ImageStorageSerializer(serializers.ModelSerializer): #인풋인미지와 아웃풋이미지 담는 시리얼라이즈
+#     input_img = serializers.FileField(required=False)
+#     class Meta:
+#         model = Image
+#         fields = ("pk", "input_img", "output_img")
 
 class FilterOptionPriceSerializer(serializers.ModelSerializer): #filter_option에서 price만 가져오는 시리얼라이즈
     filter_set = FilterSerializer(many=True)
@@ -56,26 +56,23 @@ class OptionReviewSerializer(serializers.ModelSerializer): # 구매옵션설정�
 class OrderPageUserSerializer(serializers.ModelSerializer):  #구매페이지에 user정보 넘기기 위한 시리얼라이즈
     class Meta:
         model = User
-        fields = ("username", "phone_number", "email", "address", "reward")
+        fields = "__all__"
 
 class OrderPageImageSerializer(serializers.ModelSerializer):
-    output_img = serializers.SerializerMethodField()
-    def get_output_img(self, obj):
-        return obj.output_img.name
-
+    input_img = serializers.FileField(required=False)
     class Meta:
         model = Image
-        fields = ("output_img",)
+        fields = "__all__"
 
 class OrderPagePriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter_option
-        fields = ("price", "value", "type",)
+        fields = "__all__"
 
 class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈 + price
-    user = OrderPageUserSerializer(many=True)
+    filter_user = OrderPageUserSerializer(many=True)
     image_set = OrderPageImageSerializer(many=True)
     filter_option_set = OrderPagePriceSerializer(many=True)
     class Meta:
         model = Filter
-        fields = "__all__"
+        fields = ("filter_image", "filter_user", "image_set", "filter_option_set")
