@@ -44,16 +44,12 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=100, null=True)
     phone_number = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=100, null=True)
-    filter_history = models.ManyToManyField('store.Filter', related_name="filter_user")
+    filter= models.ManyToManyField('store.Filter', related_name="filter_user")
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-    extra_kwargs = {
-        'reword' : False
-    }
 
     def __str__(self):
         return self.email
@@ -77,16 +73,8 @@ class User(AbstractBaseUser):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     filter = models.ForeignKey('store.Filter', on_delete=models.CASCADE)
-    filter_option = models.ManyToManyField('store.Filter_option', related_name="filter_option_order")
+    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE)
     image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE)
-    total_order_price = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
-
-
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter_option = models.ManyToManyField('store.Filter_option', related_name="filter_option_cart")
-    # image = models.ForeignKey(Image, on_delete=models.CASCADE)
-
 
