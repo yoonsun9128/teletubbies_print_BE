@@ -2,6 +2,62 @@ from rest_framework import serializers
 from store.models import Filter, Filter_option, Review
 from users.models import User, Order
 from ImageStorage.models import Image
+
+class Base64ImageField(serializers.ImageField):
+    """
+    A Django REST framework field for handling image-uploads through raw post data.
+    It uses base64 for encoding and decoding the contents of the file.
+
+    Heavily based on
+    https://github.com/tomchristie/django-rest-framework/pull/1268
+
+    Updated for Django REST framework 3.
+    """
+
+    def to_internal_value(self, data):
+        from django.core.files.base import ContentFile
+        import base64
+        import six
+        import uuid
+
+        # Check if this is a base64 string
+        if isinstance(data, six.string_types):
+            # Check if the base64 string is in the "data:" format
+            if 'data:' in data and ';base64,' in data:
+                # Break out the header from the base64 content
+                header, data = data.split(';base64,')
+
+            # Try to decode the file. Return validation error if it fails.
+            try:
+                decoded_file = base64.b64decode(data)
+            except TypeError:
+                self.fail('invalid_image')
+
+            # Generate file name:
+            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+            # Get the file name extension:
+            file_extension = self.get_file_extension(file_name, decoded_file)
+
+            complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+            data = ContentFile(decoded_file, name=complete_file_name)
+
+        return super(Base64ImageField, self).to_internal_value(data)
+
+    def get_file_extension(self, file_name, decoded_file):
+        import imghdr
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+
+
+
+
+
+
 class FilterSerializer(serializers.ModelSerializer): #Filter모델 시리얼라이즈
     class Meta:
         model = Filter
@@ -53,26 +109,47 @@ class OptionReviewSerializer(serializers.ModelSerializer): # 구매옵션설정�
         model = Filter
         fields = "__all__"
 
-class OrderPageUserSerializer(serializers.ModelSerializer):  #구매페이지에 user정보 넘기기 위한 시리얼라이즈
+class FilterDetailUserSerializer(serializers.ModelSerializer):  #구매페이지에 user정보 넘기기 위한 시리얼라이즈
     class Meta:
         model = User
         fields = "__all__"
 
-class OrderPageImageSerializer(serializers.ModelSerializer):
-    input_img = serializers.FileField(required=False)
+class FilterDetailImageSerializer(serializers.ModelSerializer):
+    output_img = Base64ImageField(max_length=None, use_url=True,)
     class Meta:
         model = Image
-        fields = "__all__"
+        fields = ("output_img",)
 
-class OrderPagePriceSerializer(serializers.ModelSerializer):
+class FilterDetailPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter_option
         fields = "__all__"
+class FilterDetailPageGetUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("username",)
+        
+class FilterDetailPageSerializer(serializers.ModelSerializer):
+    user = FilterDetailPageGetUserSerializer(many=True)
+    image = FilterDetailImageSerializer(many=True)
+    filter_option = FilterDetailPriceSerializer(many=True)
+    filter = FilterSerializer(many=True)
+    class Meta:
+        model = Order
+        fields = "__all__"
+        
+class ReviewAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
 
-class OrderPageSerializer(serializers.ModelSerializer): #구매페이지 user정보 + 결과물이미지 시리얼라이즈 + price
-    filter_user = OrderPageUserSerializer(many=True)
-    image_set = OrderPageImageSerializer(many=True)
-    filter_option_set = OrderPagePriceSerializer(many=True)
+
+
+class FilterDetailPageGetSerializer(serializers.ModelSerializer):
+    filter_user = FilterDetailUserSerializer(many=True)
+    review_set = ReviewAllSerializer(many=True)
+    image_set = FilterDetailImageSerializer(many=True)
+    filter_option_set = FilterDetailPriceSerializer(many=True)
     class Meta:
         model = Filter
-        fields = ("filter_image", "filter_user", "image_set", "filter_option_set")
+        fields = "__all__"

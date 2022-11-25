@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:user_id>/', views.UserMypageView.as_view(), name='user_mypage_view'),
     path('<int:user_id>/edit/', views.UserDetailView.as_view(), name='user_edit_view'),
 
+
     
 ]
