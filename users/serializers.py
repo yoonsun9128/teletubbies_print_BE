@@ -23,12 +23,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def update(self, validated_data):
-        user = super().create(validated_data)
-        password = user.password
-        user.set_password(password)
-        user.save()
-        return user
+    def update(self, obj, validated_data):
+        obj.email = validated_data.get('email', obj.email)
+        obj.password = validated_data.get('password', obj.password)
+        obj.username = validated_data.get('username', obj.username)
+        obj.set_password(obj.password)
+        obj.save()
+        return obj
 
 
     def validate(self, data):
@@ -50,6 +51,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 detail={"error": "password의 길이는 8자리 이상이어야합니다."}
             )
+
 
         if email.exists():
             raise serializers.ValidationError('이메일이 이미 존재합니다.')
@@ -85,5 +87,5 @@ class UserMypageSerializer(serializers.ModelSerializer): #user(username, reward)
 class UserInfoModSerializer(serializers.ModelSerializer): #이메일, 비밀번호, 유저네임, 핸드폰, 주소 ******************************얘 좀 이상함*************************
     class Meta:
         model = User
-        fields = ('email','username','phone_number', 'address', 'password','password2')
+        fields = ('username','phone_number', 'address', 'password',)
 
