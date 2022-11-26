@@ -3,8 +3,8 @@ from users.models import User, Order
 # Create your models here.
 
 class Filter(models.Model):
-    filter_image = models.ImageField()
-    bookmark = models.ManyToManyField(User, related_name='bookmark_filter')
+    filter_image = models.FileField(null=True, blank=True, upload_to="")
+    bookmark = models.ManyToManyField(User, related_name='bookmark_filter', blank=True)
     filter_name = models.CharField(max_length=100, default=0)
     class meta:
         db_table = 'filter'

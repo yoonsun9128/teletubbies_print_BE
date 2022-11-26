@@ -13,7 +13,7 @@ import PIL
 class StoreView(APIView):
     def get(self, request):
         filters = Filter.objects.all()
-        serializer = FilterSerializer(filters)
+        serializer = FilterSerializer(filters, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -35,7 +35,7 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         else:
             return Response(slz.errors, status=status.HTTP_400_BAD_REQUEST)
         
-class FilterDetailView(APIView): # 필터 옵션 선택하는 페이지
+class FilterDetailView(APIView): 
     def get(self, request, filter_id):
         filter = Filter.objects.get(id=filter_id)
         serializer = FilterDetailPageGetSerializer(filter)

@@ -73,7 +73,9 @@ class FilterDetailPageGetUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username",)
-        
+
+
+
 class FilterDetailPageSerializer(serializers.ModelSerializer):
     # user = FilterDetailPageGetUserSerializer(many=True)
     # image = FilterDetailImageSerializer(many=True)
@@ -82,6 +84,7 @@ class FilterDetailPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ("id", )
+ 
         
 class ReviewAllSerializer(serializers.ModelSerializer):
     class Meta:
