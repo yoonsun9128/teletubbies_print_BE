@@ -72,9 +72,9 @@ class User(AbstractBaseUser):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter = models.ForeignKey('store.Filter', on_delete=models.CASCADE)
+    filter = models.ForeignKey('store.Filter', on_delete=models.CASCADE, null=True)
     filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE, default=0)
-    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE)
+    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
 

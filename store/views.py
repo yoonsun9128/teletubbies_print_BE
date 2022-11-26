@@ -35,7 +35,6 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         else:
             return Response(slz.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
 class FilterDetailView(APIView): # 필터 옵션 선택하는 페이지
     def get(self, request, filter_id):
         filter = Filter.objects.get(id=filter_id)
@@ -43,11 +42,10 @@ class FilterDetailView(APIView): # 필터 옵션 선택하는 페이지
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, filter_id):
-        serializer = FilterDetailPageSerializer(data = request.data)
+        serializer = FilterDetailPageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 

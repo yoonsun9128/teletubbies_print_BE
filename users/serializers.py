@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import User
-from store.models import Filter
+from store.models import Filter, Review
 from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from store.serializers import FilterSerializer, ReviewSerializer, OptionReviewSerializer, OrderCreateSerializer, FilterOptionSerializer
@@ -89,3 +89,12 @@ class UserInfoModSerializer(serializers.ModelSerializer): #이메일, 비밀번�
         model = User
         fields = ('username','phone_number', 'address', 'password',)
 
+class ReviewCreateFilterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Filter
+        fields = ("id",)
+        
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ("content",)

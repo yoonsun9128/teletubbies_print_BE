@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+from users.models import User, Order
 # Create your models here.
 
 class Filter(models.Model):
@@ -30,8 +30,8 @@ class Filter_option(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     filter = models.ForeignKey(Filter, on_delete=models.CASCADE)
-    review_image = models.ImageField()
     content = models.TextField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
 

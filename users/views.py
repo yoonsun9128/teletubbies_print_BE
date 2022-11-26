@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView, )
-from .models import User
+from .models import User, Order
 
-from users.serializers import CustomTokenObtainPairSerializer, UserSerializer, UserMypageSerializer, UserInfoModSerializer
+from users.serializers import CustomTokenObtainPairSerializer, UserSerializer, UserMypageSerializer, UserInfoModSerializer, ReviewCreateSerializer
 
 class UserView(APIView):
     def post(self, request):
@@ -38,3 +38,14 @@ class UserDetailView(APIView): #이메일, 비밀번호, 유저네임, 핸드폰
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("권한이 없습니다.", status=status.HTTP_403_FORBIDDEN)
+
+class OrderReview(APIView):
+    def post(self, request, user_id, order_id):
+        serializer = ReviewCreateSerializer(data=request.data)
+        user_order = Order.objects.get(id=order_id) # 주문한 내역
+        filter_id = user_order.filter
+        if serializer.is_valid():
+            serializer.save(user=request.user, order_id=order_id, filter=filter_id)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
