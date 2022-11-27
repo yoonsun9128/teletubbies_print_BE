@@ -14,6 +14,11 @@ class ImageStorageSerializer(serializers.ModelSerializer):
         model = Image
         fields = ("pk", "input_img", "output_img")
 
+class OutputImageSerializer(serializers.ModelSerializer):#마이페이지에 아웃풋 이미지 가져오기 위한 시리얼라이즈
+    class Meta:
+        model = Image
+        fields = ("output_img",)            
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
