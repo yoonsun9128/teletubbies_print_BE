@@ -25,6 +25,7 @@ class UserMypageView(APIView): #
         serializer = UserMypageSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)        
               
+              
         
 class UserDetailView(APIView): #이메일, 비밀번호, 유저네임, 핸드폰, 주소
     def put(self, request, user_id): #정보수정페이지
