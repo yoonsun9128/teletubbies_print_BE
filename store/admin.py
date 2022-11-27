@@ -1,7 +1,7 @@
 from django.contrib import admin
-from store.models import Filter, Filter_option, Review
+from store.models import Filter, Comment
 # Register your models here.
 
 admin.site.register(Filter)
-admin.site.register(Filter_option)
-admin.site.register(Review)
+admin.site.register(Comment)
+

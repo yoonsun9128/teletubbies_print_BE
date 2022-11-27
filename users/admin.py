@@ -5,8 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from users.models import User, Order
-
+from users.models import User
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
@@ -62,5 +61,4 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Order)
 admin.site.unregister(Group) 

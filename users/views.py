@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import ( TokenObtainPairView,TokenRefreshView, )
 from .models import User
 
-from users.serializers import CustomTokenObtainPairSerializer, UserSerializer, UserMypageSerializer, UserInfoModSerializer, ReviewCreateSerializer
+from users.serializers import CustomTokenObtainPairSerializer, UserSerializer, UserMypageSerializer
 
 class UserView(APIView):
     def post(self, request):

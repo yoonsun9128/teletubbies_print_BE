@@ -9,16 +9,9 @@ class Filter(models.Model):
         db_table = 'filter'
 
 
-class Article(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    filter = models.ForeignKey(Filter, on_delete=models.CASCADE, null=True)
-    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now = True)
-
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    Article = models.ForeignKey(Article, on_delete=models.CASCADE, default=None, null=True)
+    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE, default=None, null=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)

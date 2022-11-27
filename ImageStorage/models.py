@@ -8,3 +8,5 @@ class Image(models.Model):
     filter = models.ForeignKey(Filter, null=True, on_delete=models.CASCADE)
     input_img = models.FileField("입력사진", blank=True, null=True, upload_to="input/")
     output_img = models.FileField("결과사진", blank=True , null=True, upload_to="output/")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now = True)
