@@ -18,6 +18,11 @@ class StoreView(APIView):
 
 
 class UploadImageView(APIView): # input 이미지만 넣는 페이지
+    def get(self, request, filter_id):
+        filter = Filter.objects.get(id=filter_id)
+        serializer = FilterSerializer(filter)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request, filter_id):
         data = request.data
         filter = Filter.objects.get(id=filter_id)
@@ -48,7 +53,7 @@ class ArticleDetailView(APIView):
         filter = Filter.objects.get(id=filter_id)
         serializer = FilterDetailPageGetSerializer(filter, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     def post(self, request, filter_id):
         serializer = FilterDetailPageSerializer(data=request.data)
         if serializer.is_valid():
