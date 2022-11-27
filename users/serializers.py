@@ -3,7 +3,7 @@ from users.models import User
 from store.models import Filter, Comment
 from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from store.serializers import FilterSerializer
+from store.serializers import FilterSerializer, OutputImageSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     passwordcheck = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -68,6 +68,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 class UserMypageSerializer(serializers.ModelSerializer): #마이페이지 
+    image_set =OutputImageSerializer(many=True)
     class Meta:
         model = User
-        fields = "__all__"
+        fields =  ("username", "image_set" )
