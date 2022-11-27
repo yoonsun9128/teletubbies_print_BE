@@ -12,7 +12,7 @@ class FilterSerializer(serializers.ModelSerializer): #Filter모델 시리얼라�
 class ImageStorageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ("id", "input_img", "output_img")
+        fields = ("pk", "input_img", "output_img")
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +24,15 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ("user", "output_img", "comment_set")
+
+class ImageListSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    filter = serializers.SerializerMethodField()
+    
+    def get_user(self, obj):
+        return obj.user.email
+    def get_filter(self, obj):
+        return obj.filter.filter_name
+    class Meta:
+        model=Image
+        fields = ("output_img","user", "filter")
