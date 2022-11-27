@@ -6,7 +6,7 @@ from store import serializers
 from store.models import Filter, Review
 from users.models import User
 from ImageStorage.views import style
-from store.serializers import FilterSerializer, ReviewSerializer, ImageStorageSerializer, FilterDetailPageSerializer,FilterDetailPageGetSerializer
+from store.serializers import FilterSerializer, ImageStorageSerializer
 from ImageStorage.models import Image
 import PIL
 

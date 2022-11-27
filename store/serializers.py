@@ -9,3 +9,8 @@ class FilterSerializer(serializers.ModelSerializer): #Filter모델 시리얼라�
         model = Filter
         fields = "__all__"
 
+class ImageStorageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ("id", "input_img", "output_img")
+
