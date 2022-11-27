@@ -6,7 +6,7 @@ from store import serializers
 from store.models import Filter, Comment
 from users.models import User
 from ImageStorage.views import style
-from store.serializers import FilterSerializer, ImageStorageSerializer, ImageSerializer, CommentSerializer
+from store.serializers import FilterSerializer, ImageStorageSerializer, ImageSerializer, CommentSerializer, ImageListSerializer
 from ImageStorage.models import Image
 import PIL
 
@@ -42,8 +42,10 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         
         
 class ImageView(APIView):
-    def get(self, request, image_id):
-        pass
+    def get(self, request):
+        Images = Image.objects.all()
+        serializer = ImageListSerializer(Images, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     def post(self, request, image_id):
         pass
         
