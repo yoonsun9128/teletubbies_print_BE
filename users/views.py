@@ -19,11 +19,12 @@ class UserView(APIView):
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
     
-class UserMypageView(APIView): #북마크, 리뷰내용, 주문내역
+class UserMypageView(APIView): #
     def get(self, request, user_id):
         user = User.objects.get(id=user_id) 
         serializer = UserMypageSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)        
+              
         
 class UserDetailView(APIView): #이메일, 비밀번호, 유저네임, 핸드폰, 주소
     def put(self, request, user_id): #정보수정페이지
