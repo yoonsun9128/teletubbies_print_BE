@@ -3,10 +3,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from store import serializers
-from store.models import Filter, Filter_option, Review
+from store.models import Filter, Review
 from users.models import User
 from ImageStorage.views import style
-from store.serializers import FilterSerializer, ReviewSerializer, ImageStorageSerializer, FilterDetailPageGetSerializer, FilterDetailPageSerializer
+from store.serializers import FilterSerializer, ReviewSerializer, ImageStorageSerializer, FilterDetailPageSerializer,FilterDetailPageGetSerializer
 from ImageStorage.models import Image
 import PIL
 
@@ -35,10 +35,18 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         else:
             return Response(slz.errors, status=status.HTTP_400_BAD_REQUEST)
         
-class FilterDetailView(APIView): 
+        
+class ArticleView(APIView):
+    def get(self, request, image_id):
+        pass
+    def post(self, request, image_id):
+        pass
+        
+        
+class ArticleDetailView(APIView): 
     def get(self, request, filter_id):
         filter = Filter.objects.get(id=filter_id)
-        serializer = FilterDetailPageGetSerializer(filter)
+        serializer = FilterDetailPageGetSerializer(filter, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, filter_id):

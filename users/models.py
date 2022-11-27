@@ -4,7 +4,7 @@ import store
 import ImageStorage
 from django.utils import timezone
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, phone_number, address, password=None):
+    def create_user(self, email, username, phone_number, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -12,20 +12,18 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             username = username,
             phone_number = phone_number,
-            address = address
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username=None, address=None, password=None, phone_number=None):
+    def create_superuser(self, email, username=None, password=None, phone_number=None):
         user = self.create_user(
             email,
             password=password,
             phone_number=phone_number,
             username=username,
-            address=address
 
         )
         user.is_admin = True
@@ -43,8 +41,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     username = models.CharField(max_length=100, null=True)
     phone_number = models.IntegerField(blank=True, null=True)
-    address = models.CharField(max_length=100, null=True)
-    filter= models.ManyToManyField('store.Filter', related_name="filter_user")
+    filter = models.ManyToManyField('store.Filter', related_name="filter_user")
 
     objects = UserManager()
 
@@ -69,12 +66,3 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
-
-class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    filter = models.ForeignKey('store.Filter', on_delete=models.CASCADE, null=True)
-    filter_option = models.ForeignKey('store.Filter_option', on_delete=models.CASCADE, default=0)
-    image = models.ForeignKey('ImageStorage.Image', on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now = True)
-
