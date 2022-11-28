@@ -1,6 +1,6 @@
 # ![25](https://user-images.githubusercontent.com/103415295/200451827-97c67713-e0d2-4558-bf6f-f2b9846c0829.png)내일배움캠프 Team 텔레토비태양
 
-## 심화DRF 추천시스템프로젝트 저장소
+## 유화 제작 프로젝트 저장소
 
 
 frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
@@ -30,9 +30,7 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
   - 프론트엔드와 백엔드를 별도의 레포지토리로 관리하기
   - 유화제작 인공지능 기술(NST)을 사용해서, 사용자가 이미지를 넣으면 유화스타일이 적용된 이미지로 변환되어 출력되는 서비스를 만들기
   - Django의 기본 user model이 아닌, custom user model을 사용
-  - 크롤링한 데이터를 바탕으로 유사한 콘텐츠 추천 - 추천시스템
   - Frontend와 Backend 서버를 별도로 구축하고 구현
-  - 백엔드 프로젝트를 AWS EC2를 사용해서 배포하기
  
 
  # ![25](https://user-images.githubusercontent.com/103415295/200451837-221980f5-74f3-46f2-a56b-704e7c5ad91b.png)와이어프레임
