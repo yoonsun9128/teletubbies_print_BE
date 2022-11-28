@@ -46,7 +46,7 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
 
 
  # ![25](https://user-images.githubusercontent.com/103415295/200451920-fa94cae7-f866-4c65-bbe0-3976fd8b350b.png)DB설계
-![image](https://ifh.cc/g/kwxydn.png)
+![image](https://ifh.cc/g/ZqzvfR.png)
 
 
  # ![25](https://user-images.githubusercontent.com/103415295/200451928-7782261a-3148-4069-a03c-eb79678a59cb.png)프로젝트 기능 명세서
