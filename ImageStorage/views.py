@@ -6,6 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import tensorflow as tf
 import tensorflow_hub as hub
 import PIL
+from ImageStorage.models import Image
 
 # 이미지 사이즈 조절하는 함수
 def load_image(image_path, image_size=(512, 256)):
@@ -17,8 +18,18 @@ def load_image(image_path, image_size=(512, 256)):
     return img
 
 # 모델사용해서 이미지 transfer 함수
-def style(input_img, choice_filter):
-    original_image = load_image(input_img)
+def style(slz_id, choice_filter):
+    print("=-----------------------------")
+    print(slz_id)
+    print("-----------------------------------")
+    choice_img = Image.objects.get(id=slz_id)
+    print(choice_img)
+    print("-----------------------------------")
+    result_img = choice_img.input_img
+    print(result_img)
+    print("--asdasdasd---------------")
+
+    original_image = load_image(f'/media/{result_img}')
     style_image = load_image(f'/media/{choice_filter}')
 
     style_image = tf.nn.avg_pool(style_image, ksize=[3,3], strides=[1,1], padding='VALID')

@@ -3,7 +3,7 @@ from users.models import User
 from store.models import Filter, Comment
 from ImageStorage.models import Image
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from store.serializers import FilterSerializer, OutputImageSerializer
+from store.serializers import OutputImageSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     passwordcheck = serializers.CharField(style={'input_type':'password'}, write_only=True)
@@ -72,3 +72,8 @@ class UserMypageSerializer(serializers.ModelSerializer): #마이페이지
     class Meta:
         model = User
         fields =  ("username", "image_set" )
+        
+class UserImgUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
