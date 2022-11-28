@@ -47,7 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
                 detail={"error": "email 길이는 2자리 이상이어야 합니다."}
             )
 
-        if not len(data.get("password", "")) >= 2:
+        if not len(data.get("password", "")) >= 8:
             raise serializers.ValidationError(
                 detail={"error": "password의 길이는 8자리 이상이어야합니다."}
             )

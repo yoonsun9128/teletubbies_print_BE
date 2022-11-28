@@ -19,15 +19,8 @@ def load_image(image_path, image_size=(512, 256)):
 
 # 모델사용해서 이미지 transfer 함수
 def style(slz_id, choice_filter):
-    print("=-----------------------------")
-    print(slz_id)
-    print("-----------------------------------")
     choice_img = Image.objects.get(id=slz_id)
-    print(choice_img)
-    print("-----------------------------------")
     result_img = choice_img.input_img
-    print(result_img)
-    print("--asdasdasd---------------")
 
     original_image = load_image(f'/media/{result_img}')
     style_image = load_image(f'/media/{choice_filter}')
