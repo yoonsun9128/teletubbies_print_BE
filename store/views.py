@@ -10,12 +10,12 @@ from store.serializers import FilterSerializer, ImageStorageSerializer, ImageSer
 from ImageStorage.models import Image
 import PIL
 
+
 class StoreView(APIView):
     def get(self, request):
         filters = Filter.objects.all()
         serializer = FilterSerializer(filters, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class UploadImageView(APIView): # input 이미지만 넣는 페이지
     def get(self, request, filter_id):
@@ -24,7 +24,10 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, filter_id):
+        print(request.user)
+        print(filter_id)
         data = request.data
+        print(data)
         filter = Filter.objects.get(id=filter_id)
         filter_name = filter.filter_image
         slz = ImageStorageSerializer(data=data)
@@ -33,8 +36,8 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
             slz_id = slz.data['pk']
             number = slz_id
             uploadurl = f'media/output/save{number}.jpg'
-            style(slz.data['input_img'], filter_name).save(uploadurl)
-            outputimage.output_img = uploadurl
+            style(slz_id, filter_name).save(uploadurl)
+            outputimage.output_img = uploadurl[6:]
             outputimage.save()
             return Response(slz.data['output_img'], status=status.HTTP_200_OK)
         else:
