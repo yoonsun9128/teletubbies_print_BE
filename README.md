@@ -37,11 +37,9 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
 ![image](https://ifh.cc/g/RANmCz.jpg)
 
  # ![25](https://user-images.githubusercontent.com/103415295/200451854-3a9e805d-e24e-4035-a7b0-c6238b5c487b.png)API설계
- + STORE APP
-![image](https://user-images.githubusercontent.com/103415295/200448140-faaad562-a249-42fe-8b7c-26d5ba67ef61.png)
+![image](https://ifh.cc/g/SMxoGS.jpg)
 
- + USER APP
- ![image](https://user-images.githubusercontent.com/103415295/200448271-7cf56e80-a2ad-4d46-a376-bcfdf97d6ba4.png)
+
 
 
 
@@ -84,8 +82,7 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
 <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=SQLite&logoColor=white">
 
 ### 머신러닝
-<img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">
-<img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white">
+<img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white"> <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white">
 
 
 ### 협업
