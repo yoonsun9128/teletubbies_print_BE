@@ -69,7 +69,7 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
  ### 앞으로 추가할 기능
    + 소셜 회원가입/로그인 기능
    + 좋아요 기능
-   + 
+   + 북마크 기능
 
 
 # ![25](https://user-images.githubusercontent.com/103415295/200451936-b234dac2-a60a-4249-8a04-f03662eb0122.png)기술 스택
