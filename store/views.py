@@ -24,10 +24,7 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, filter_id):
-        print(request.user)
-        print(filter_id)
         data = request.data
-        print(data)
         filter = Filter.objects.get(id=filter_id)
         filter_name = filter.filter_image
         slz = ImageStorageSerializer(data=data)
@@ -42,8 +39,8 @@ class UploadImageView(APIView): # input 이미지만 넣는 페이지
             return Response(slz.data['output_img'], status=status.HTTP_200_OK)
         else:
             return Response(slz.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        
+
+
 class ImageView(APIView):
     def get(self, request):
         Images = Image.objects.all()
@@ -51,9 +48,9 @@ class ImageView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     def post(self, request, image_id):
         pass
-        
-        
-class ImageDetailView(APIView): 
+
+
+class ImageDetailView(APIView):
     def get(self, request, image_id):
         image = Image.objects.get(id=image_id)
         serializer = ImageSerializer(image)
