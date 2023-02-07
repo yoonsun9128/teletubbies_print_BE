@@ -16,12 +16,12 @@ class ImageStorageSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "user": {"required": False}
         }
-        
+
 
 class OutputImageSerializer(serializers.ModelSerializer):#마이페이지에 아웃풋 이미지 가져오기 위한 시리얼라이즈
     class Meta:
         model = Image
-        fields = ("output_img",)            
+        fields = ("output_img",)
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
@@ -30,6 +30,11 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
+
+class CommentPutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("content",)
 
 class ImageSerializer(serializers.ModelSerializer):
     comment_set = CommentSerializer(many=True)
@@ -40,7 +45,7 @@ class ImageSerializer(serializers.ModelSerializer):
 class ImageListSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     filter = serializers.SerializerMethodField()
-    
+
     def get_user(self, obj):
         return obj.user.email
     def get_filter(self, obj):

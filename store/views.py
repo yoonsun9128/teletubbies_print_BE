@@ -6,7 +6,7 @@ from store import serializers
 from store.models import Filter, Comment
 from users.models import User
 from ImageStorage.views import style
-from store.serializers import FilterSerializer, ImageStorageSerializer, ImageSerializer, CommentSerializer, ImageListSerializer
+from store.serializers import FilterSerializer, ImageStorageSerializer, ImageSerializer, CommentSerializer, ImageListSerializer, CommentPutSerializer
 from ImageStorage.models import Image
 import PIL
 
@@ -63,4 +63,27 @@ class ImageDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #사진 자체를 삭제
+    def delete(self, request, image_id):
+        image = Image.objects.get(id=image_id)
+        if request.user == image.user:
+            image.delete()
+        else:
+            return Response("작성자가 아닙니다.",status=status.HTTP_406_NOT_ACCEPTABLE)
 
+class CommentDetailView(APIView):
+    def put(self, request, image_id, comment_id):
+        comment = Comment.objects.get(id= comment_id)
+        if request.user == comment.user:
+            serializer = CommentPutSerializer(comment, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, image_id, comment_id):
+        comment = Comment.objects.get(id= comment_id)
+        if request.user == comment.user:
+            comment.delete()
+        else:
+            return Response("작성자가 아닙니다.",status=status.HTTP_406_NOT_ACCEPTABLE)
