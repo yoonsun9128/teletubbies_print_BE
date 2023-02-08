@@ -69,6 +69,7 @@ frontend repo = https://github.com/nhkmi1001/teletubbies_print_FE
  ### 앞으로 추가할 기능
    + 소셜 회원가입/로그인 기능
    + 좋아요 기능 -> 2/8 추가함
+   + 댓글 기능 -> 2/7 추가 완료
    + 북마크 기능
 
 
