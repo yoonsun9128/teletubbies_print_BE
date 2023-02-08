@@ -71,6 +71,7 @@ class ImageDetailView(APIView):
         else:
             return Response("작성자가 아닙니다.",status=status.HTTP_406_NOT_ACCEPTABLE)
 
+#댓글 수정 삭제
 class CommentDetailView(APIView):
     def put(self, request, image_id, comment_id):
         comment = Comment.objects.get(id= comment_id)
@@ -87,3 +88,17 @@ class CommentDetailView(APIView):
             comment.delete()
         else:
             return Response("작성자가 아닙니다.",status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class ImageLikesView(APIView):
+    def post(self, request, image_id):
+        image = Image.objects.get(id=image_id)
+        if request.user.is_anonymous:
+            if request.user in image.likes.all():
+                image.likes.remove(request.user)
+                return Response("좋아요 취소되었습니다.", status=status.HTTP_202_ACCEPTED)
+            else:
+                image.likes.add(request.user)
+                return Response("좋아요 추가되었습니다.", status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response("로그인 해주세요.", status=status.HTTP_406_NOT_ACCEPTABLE)
+
